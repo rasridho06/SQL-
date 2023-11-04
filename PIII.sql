@@ -11,9 +11,9 @@ select
   AEAD.DECRYPT_STRING(denk.keyset,den.spouse_identity_number, den.id) as ktp_spouse,
   AEAD.DECRYPT_STRING(denk.keyset,den.spouse_name, den.id) as spouse_name
 from
-  `alami-group-data.p2p_access.dim_ecofin_nominatif` as den
+  `group-data.p2p_access.dim_ecofin_nominatif` as den
 left join
-  `alami-group-data.p2p_access_enigma.dim_ecofin_nominatif_keys` as denk
+  `group-data.p2p_access_enigma.dim_ecofin_nominatif_keys` as denk
 on den.id = denk.id --on pada join menyesuaikan dengan sheet pada P2P Access Layer Design
 )
 
@@ -25,14 +25,14 @@ select
   df.id as id2,
   status,
   status_message,
-  pefindo_grade,
+  credit_score,
   submission_method,
-  lokasi_efishery_point,
+  lokasi_point,
   line_facility_amount
 from
-  `alami-group-data.p2p_access.dim_ecofin_nominatif` as de
+  `group-data.p2p_access.dim_ecofin_nominatif` as de
 left join
-  `alami-group-data.p2p_access.dim_individual_line_facility` as df
+  `group-data.p2p_access.dim_individual_line_facility` as df
 on
   de.individual_id = df.individual_id
 where
@@ -56,9 +56,9 @@ select
   PII.spouse_name,
   lf.approved_time,
   lf.status,
-  lf.pefindo_grade,
+  lf.credit_score,
   lf.submission_method,
-  lf.lokasi_efishery_point,
+  lf.lokasi_point,
   max(lf.line_facility_amount) as latest_lf,
   min(lf.line_facility_amount) as lf_before_upgrading
 from
